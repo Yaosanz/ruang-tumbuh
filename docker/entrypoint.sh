@@ -13,12 +13,6 @@ rm -f /etc/nginx/sites-enabled/default
 
 cd /var/www
 
-# Generate APP_KEY kalau belum ada (jaga-jaga untuk first deploy)
-if [ -z "$APP_KEY" ]; then
-    echo "APP_KEY not set, generating..."
-    php artisan key:generate --force
-fi
-
 php artisan storage:link || true
 
 echo "Running migrations..."
