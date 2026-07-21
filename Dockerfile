@@ -15,7 +15,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --from=composer /var/www/vendor /var/www/vendor
 
 COPY . /var/www
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx.conf.template /etc/nginx/conf.d/default.conf.template
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh \
