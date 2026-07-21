@@ -8,18 +8,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# ===== Stage 2: Install PHP dependencies (Composer) =====
-FROM composer:2 AS composer
-WORKDIR /app
-COPY . .
-# --no-scripts penting: mencegah artisan package:discover berjalan di sini.
-# Stage ini belum punya bootstrap/cache yang writable dengan benar, jadi
-# artisan akan gagal ("Please provide a valid cache path"). Package
-# discovery akan otomatis ter-generate ulang secara natural saat
-# entrypoint.sh menjalankan artisan command pertama kali di runtime.
-RUN composer install --no-dev --no-scripts --optimize-autoloader --no-interaction
-
-# ===== Stage 3: Final runtime image (PHP-FPM + Nginx) =====
+# ===== Stage 2: Final runtime image (PHP-FPM + Nginx) =====
 FROM php:8.3-fpm AS final
 
 # System packages: build deps untuk ekstensi PHP + nginx + envsubst (gettext-base)
@@ -47,16 +36,26 @@ RUN apt-get update && apt-get install -y \
     intl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Ambil binary composer saja (bukan menjalankan install di image composer:2,
+# karena PHP internal image itu bisa beda versi dari runtime di sini —
+# itu penyebab error "platform_check.php requires PHP >= 8.4.1" sebelumnya)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 WORKDIR /var/www
 
 # Copy source code aplikasi
 COPY . .
 
-# Copy vendor (dependency PHP) dari stage composer
-COPY --from=composer /app/vendor ./vendor
-
 # Copy hasil build asset Vite dari stage assets
 COPY --from=assets /app/public/build ./public/build
+
+# Install dependency PHP di dalam image runtime yang sama persis
+# (php:8.3-fpm), supaya platform_check.php yang di-generate composer
+# konsisten dengan PHP yang benar-benar menjalankannya nanti.
+# --no-scripts mencegah artisan package:discover berjalan sebelum
+# bootstrap/cache siap; itu akan ter-generate ulang otomatis saat
+# entrypoint.sh menjalankan artisan command pertama kali di runtime.
+RUN composer install --no-dev --no-scripts --optimize-autoloader --no-interaction
 
 # Hapus default site nginx bawaan Debian — mencegah halaman
 # "Welcome to nginx!" muncul karena bentrok dengan config custom
