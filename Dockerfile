@@ -9,7 +9,7 @@ COPY . .
 RUN npm run build
 
 # ===== Stage 2: Final runtime image (PHP-FPM + Nginx) =====
-FROM php:8.3-fpm AS final
+FROM php:8.4-fpm AS final
 
 # System packages: build deps untuk ekstensi PHP + nginx + envsubst (gettext-base)
 RUN apt-get update && apt-get install -y \
