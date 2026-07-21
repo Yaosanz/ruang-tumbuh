@@ -11,10 +11,13 @@ RUN npm run build
 # ===== Stage 2: Install PHP dependencies (Composer) =====
 FROM composer:2 AS composer
 WORKDIR /app
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --no-autoloader --optimize-autoloader --no-interaction
 COPY . .
-RUN composer dump-autoload --optimize --no-dev
+# --no-scripts penting: mencegah artisan package:discover berjalan di sini.
+# Stage ini belum punya bootstrap/cache yang writable dengan benar, jadi
+# artisan akan gagal ("Please provide a valid cache path"). Package
+# discovery akan otomatis ter-generate ulang secara natural saat
+# entrypoint.sh menjalankan artisan command pertama kali di runtime.
+RUN composer install --no-dev --no-scripts --optimize-autoloader --no-interaction
 
 # ===== Stage 3: Final runtime image (PHP-FPM + Nginx) =====
 FROM php:8.3-fpm AS final
