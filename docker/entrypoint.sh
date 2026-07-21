@@ -1,13 +1,18 @@
 #!/bin/sh
-set -eu
+set -e
+
+# Render inject $PORT secara dinamis; fallback ke 10000 kalau tidak ada (lokal/testing)
+export PORT="${PORT:-10000}"
+envsubst '${PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
+
+# Hapus default site bawaan Debian yang bisa bentrok (ini penyebab "Welcome to nginx!" sebelumnya)
+rm -f /etc/nginx/sites-enabled/default
 
 php artisan storage:link || true
-php artisan migrate --force --seed
-php artisan optimize:clear
+php artisan migrate --force
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-chown -R www-data:www-data /var/www/storage /var/www/bootstrap /var/www/database
-service nginx start
-exec php-fpm -F
+php-fpm -D
+nginx -g 'daemon off;'
