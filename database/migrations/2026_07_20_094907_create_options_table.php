@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('question_id')->constrained()->cascadeOnDelete();
             $table->string('label');
             $table->integer('value')->default(0);
+            $table->string('trait_key')->nullable();
             $table->boolean('is_correct')->default(false);
             $table->unsignedInteger('position')->default(0);
             $table->timestamps();

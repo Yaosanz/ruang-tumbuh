@@ -15,7 +15,9 @@ class EnsureAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        abort_unless(auth()->check() && auth()->user()->is_admin, 403);
+        if (! auth()->check() || auth()->user()->role !== 'admin') {
+            return redirect()->route('admin.login')->withErrors(['email' => 'Silakan masuk sebagai admin untuk mengakses halaman ini.']);
+        }
         return $next($request);
     }
 }
