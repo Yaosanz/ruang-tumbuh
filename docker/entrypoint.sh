@@ -35,8 +35,13 @@ php artisan optimize:clear
 echo "Caching..."
 
 php artisan config:cache
-php artisan route:cache
 php artisan view:cache
+# php artisan route:cache
+echo "===== LIVEWIRE ROUTES ====="
+php artisan route:list | grep livewire || true
+
+echo "===== APP ENV ====="
+php artisan about
 
 echo "Starting php-fpm..."
 php-fpm -D
