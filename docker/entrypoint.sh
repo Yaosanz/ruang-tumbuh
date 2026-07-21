@@ -28,10 +28,13 @@ else
     echo "Database already seeded, skipping."
 fi
 
-echo "Caching config..."
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+echo "Clearing Laravel caches..."
+
+php artisan optimize:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan cache:clear
 
 echo "Starting php-fpm..."
 php-fpm -D
