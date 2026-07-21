@@ -1,34 +1,33 @@
 #!/bin/sh
 set -e
 
-# Render (dan platform sejenis) inject $PORT secara dinamis saat runtime.
-# Fallback ke 10000 untuk kebutuhan lokal/testing.
-export PORT="${PORT:-10000}"
+export PORT=${PORT:-10000}
 
-echo "Generating nginx config for port ${PORT}..."
-envsubst '${PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
+echo "Generating nginx config..."
+envsubst '${PORT}' \
+< /etc/nginx/conf.d/default.conf.template \
+> /etc/nginx/conf.d/default.conf
 
-# Pastikan tidak ada sisa default site yang bentrok
 rm -f /etc/nginx/sites-enabled/default
 
 cd /var/www
 
+echo "Creating storage link..."
 php artisan storage:link || true
 
-echo "Running migrations..."
+echo "Running migration..."
 php artisan migrate --force
 
-# Seed hanya dijalankan sekali secara aman: cek dulu apakah tabel quizzes sudah berisi data.
-# Kalau mau selalu re-seed di tiap deploy (misal untuk demo), hapus blok pengecekan ini.
 SEED_CHECK=$(php artisan tinker --execute="echo App\Models\Quiz::count();" 2>/dev/null || echo "0")
+
 if [ "$SEED_CHECK" = "0" ]; then
-    echo "Seeding database..."
+    echo "Database empty. Running Seeder..."
     php artisan db:seed --force
 else
-    echo "Database already seeded, skipping."
+    echo "Database already seeded."
 fi
 
-echo "Clearing Laravel caches..."
+echo "Clearing caches..."
 
 php artisan optimize:clear
 
@@ -36,15 +35,21 @@ echo "Caching..."
 
 php artisan config:cache
 php artisan view:cache
-# php artisan route:cache
-echo "===== LIVEWIRE ROUTES ====="
+
+echo ""
+echo "========== LIVEWIRE =========="
 php artisan route:list | grep livewire || true
 
-echo "===== APP ENV ====="
+echo ""
+echo "========== ABOUT =========="
 php artisan about
 
-echo "Starting php-fpm..."
+echo ""
+echo "========== START PHP =========="
+
 php-fpm -D
 
-echo "Starting nginx on port ${PORT}..."
-exec nginx -g 'daemon off;'
+echo ""
+echo "========== START NGINX =========="
+
+exec nginx -g "daemon off;"
