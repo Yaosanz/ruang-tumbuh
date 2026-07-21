@@ -1,61 +1,71 @@
 server {
+
     listen ${PORT};
     server_name _;
 
     root /var/www/public;
     index index.php index.html;
 
-    client_max_body_size 20M;
-
     charset utf-8;
 
-    #
-    # Laravel routes
-    #
+    client_max_body_size 20M;
+
+    #################################################
+    # Laravel
+    #################################################
+
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-    #
+    #################################################
     # Livewire v4
-    # Jangan biarkan nginx menganggap file JS Livewire
-    # sebagai file statis.
-    #
+    #################################################
+
     location ^~ /livewire- {
         try_files $uri /index.php?$query_string;
     }
 
-    #
+    #################################################
     # PHP
-    #
+    #################################################
+
     location ~ \.php$ {
 
         include fastcgi_params;
 
         fastcgi_pass 127.0.0.1:9000;
+
         fastcgi_index index.php;
 
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
         fastcgi_param DOCUMENT_ROOT $document_root;
 
         fastcgi_read_timeout 300;
     }
 
-    #
-    # Static assets
-    #
-    location ~* \.(css|js|jpg|jpeg|png|gif|svg|ico|woff|woff2|ttf|eot|webp)$ {
+    #################################################
+    # Static Assets
+    #################################################
+
+    location ~* \.(css|js|mjs|jpg|jpeg|gif|png|svg|ico|webp|woff|woff2|ttf|eot)$ {
+
         expires 30d;
+
         access_log off;
+
         add_header Cache-Control "public";
 
-        try_files $uri /index.php?$query_string;
+        try_files $uri $uri/ /index.php?$query_string;
     }
 
-    #
-    # Deny hidden files
-    #
+    #################################################
+    # Hidden Files
+    #################################################
+
     location ~ /\.(?!well-known).* {
         deny all;
     }
+
 }
