@@ -7,6 +7,7 @@ use App\Models\Quiz;
 use App\Policies\QuestionPolicy;
 use App\Policies\QuizPolicy;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,5 +27,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(Quiz::class, QuizPolicy::class);
         Gate::policy(Question::class, QuestionPolicy::class);
+
+        // Force HTTPS saat production (Render)
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
