@@ -59,10 +59,23 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? [
-                PDO::MYSQL_ATTR_SSL_CA => null,
-                PDO::MYSQL_ATTR_SSL_CERT => null,
-            ] : [],
+            'options' => extension_loaded('pdo_mysql') ? (function () {
+                $caPath = env('DB_SSL_CA') ? base_path(env('DB_SSL_CA')) : null;
+
+                if ($caPath && file_exists($caPath)) {
+                    return [
+                        \PDO::MYSQL_ATTR_SSL_CA => $caPath,
+                    ];
+                }
+
+                // Fallback: tetap pakai SSL tanpa verifikasi certificate kalau
+                // file CA tidak ditemukan (misal saat build image belum sempat
+                // menyertakan file sertifikat).
+                return [
+                    \PDO::MYSQL_ATTR_SSL_CA => null,
+                    \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+                ];
+            })() : [],
           ],
 
         'mariadb' => [
