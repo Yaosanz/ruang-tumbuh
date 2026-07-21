@@ -19,7 +19,11 @@ COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh \
-    && mkdir -p /var/www/storage/framework/{cache,sessions,views} /var/www/bootstrap/cache /var/www/database \
+    && mkdir -p /var/www/storage/framework/cache \
+        /var/www/storage/framework/sessions \
+        /var/www/storage/framework/views \
+        /var/www/bootstrap/cache \
+        /var/www/database \
     && chown -R www-data:www-data /var/www/storage /var/www/bootstrap /var/www/database
 
 ENV APP_ENV=production \
