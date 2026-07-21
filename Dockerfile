@@ -1,14 +1,14 @@
 FROM composer:2.8 AS composer
 WORKDIR /var/www
 COPY composer.json composer.lock ./
-RUN composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader
+RUN composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader --no-scripts
 
 FROM php:8.4-fpm
 WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y \
-    curl libpng-dev libonig-dev libxml2-dev default-mysql-client zip unzip nginx \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd \
+    curl libpng-dev libonig-dev libxml2-dev libpq-dev default-mysql-client zip unzip nginx \
+    && docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
