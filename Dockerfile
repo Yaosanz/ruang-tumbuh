@@ -12,6 +12,9 @@ RUN npm ci
 
 COPY . .
 
+# Hapus cache lama
+RUN rm -f bootstrap/cache/*.php
+
 RUN npm run build
 
 
