@@ -75,7 +75,9 @@ class QuizService
         $slug = $base;
         $suffix = 2;
 
-        while (Quiz::where('slug', $slug)->exists()) $slug = $base.'-'.$suffix++;
+        while (Quiz::query()->where('slug', $slug)->exists()) {
+            $slug = $base.'-'.$suffix++;
+        }
 
         return $slug;
     }

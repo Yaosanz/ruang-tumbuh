@@ -22,7 +22,7 @@ class QuizController extends Controller
      */
     public function index(): JsonResponse
     {
-        $quizzes = Quiz::where('is_published', true)
+        $quizzes = Quiz::where('is_published', '=', true, 'and')
             ->withCount('questions')
             ->latest()
             ->get();

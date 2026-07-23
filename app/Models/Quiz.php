@@ -23,21 +23,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $questions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Submission> $submissions
  * @property-read int|null $submissions_count
- * @method static \Database\Factories\QuizFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz whereDurationMinutes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz whereInterpretationRanges($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz whereIsPublished($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz wherePassingScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Quiz whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Quiz extends Model

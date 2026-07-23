@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureAdmin
@@ -15,9 +16,12 @@ class EnsureAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! auth()->check() || auth()->user()->role !== 'admin') {
+        $user = Auth::user();
+
+        if (! $user || $user->role !== 'admin') {
             return redirect()->route('admin.login')->withErrors(['email' => 'Silakan masuk sebagai admin untuk mengakses halaman ini.']);
         }
+
         return $next($request);
     }
 }

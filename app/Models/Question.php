@@ -19,18 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Option> $options
  * @property-read int|null $options_count
  * @property-read \App\Models\Quiz $quiz
- * @method static \Database\Factories\QuestionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question wherePoints($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question wherePosition($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereQuestion($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereQuizId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Question extends Model

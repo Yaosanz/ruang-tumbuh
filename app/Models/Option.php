@@ -16,18 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Question $question
- * @method static \Database\Factories\OptionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option whereIsCorrect($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option whereLabel($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option wherePosition($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option whereQuestionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Option whereValue($value)
  * @mixin \Eloquent
  */
 class Option extends Model

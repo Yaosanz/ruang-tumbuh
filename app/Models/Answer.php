@@ -17,17 +17,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Models\Option|null $option
  * @property-read \App\Models\Question $question
  * @property-read \App\Models\Submission $submission
- * @method static \Database\Factories\AnswerFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Answer newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Answer newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Answer query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Answer whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Answer whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Answer whereOptionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Answer whereQuestionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Answer whereSubmissionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Answer whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Answer whereValue($value)
  * @mixin \Eloquent
  */
 class Answer extends Model

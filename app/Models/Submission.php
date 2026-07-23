@@ -22,20 +22,6 @@ use Illuminate\Support\Str;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Answer> $answers
  * @property-read int|null $answers_count
  * @property-read \App\Models\Quiz $quiz
- * @method static \Database\Factories\SubmissionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission whereCompletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission whereMaxScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission whereParticipantEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission whereParticipantName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission wherePercentage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission whereQuizId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission whereScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Submission whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Submission extends Model
