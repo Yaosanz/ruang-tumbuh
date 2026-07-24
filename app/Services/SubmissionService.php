@@ -33,6 +33,7 @@ class SubmissionService
                 'result_summary' => $result['summary'],
                 'started_at' => now(),
                 'completed_at' => now(),
+                'expires_at' => now()->addHours(24),
             ]);
 
             foreach ($quiz->questions as $question) {

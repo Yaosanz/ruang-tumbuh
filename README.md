@@ -2,6 +2,23 @@
 
 Monolithic Quiz & Assessment Management System built with **Laravel 13** and **Livewire 4**. Supports self-assessments (Likert-scale psychological screenings, personality inventories) and knowledge quizzes with weighted scoring, guest/authenticated workflows, and UUID-protected result pages.
 
+## 📚 REST API Documentation
+
+Interactive REST API documentation is available online:
+
+**🔗 https://ruang-tumbuh.docs.buildwithfern.com/ruang-tumbuh**
+
+The documentation includes:
+- Authentication
+- Quiz API
+- Question API
+- Answer API
+- User API
+- Request & response examples
+- Error responses
+
+You can explore and test all available endpoints directly through the documentation.
+
 ## Table of Contents
 
 - [Features](#features)
@@ -25,18 +42,18 @@ Monolithic Quiz & Assessment Management System built with **Laravel 13** and **L
 
 ## Features
 
-| Area | Details |
-|---|---|
-| **Public catalogue** | Published quizzes are listed on the landing page with category, type, and question count |
-| **Guided question flow** | Progressive step-by-step wizard with progress bar, back navigation, and per-step validation |
-| **Guest submissions** | Anonymous users can submit without registration; results are accessible via unique UUID |
-| **Personality tools** | MBTI (16 types), DISC (4 dominant styles), Big Five (OCEAN profile) — all trait-based |
+| Area                     | Details                                                                                             |
+| ------------------------ | --------------------------------------------------------------------------------------------------- |
+| **Public catalogue**     | Published quizzes are listed on the landing page with category, type, and question count            |
+| **Guided question flow** | Progressive step-by-step wizard with progress bar, back navigation, and per-step validation         |
+| **Guest submissions**    | Anonymous users can submit without registration; results are accessible via unique UUID             |
+| **Personality tools**    | MBTI (16 types), DISC (4 dominant styles), Big Five (OCEAN profile) — all trait-based               |
 | **Psychological scales** | Likert-based stress screening and anxiety self-assessment with clinical-grade interpretation ranges |
-| **Weighted scoring** | Questions carry configurable `points` that act as active weight multipliers |
-| **Rate limiting** | Session-scoped throttle (5 submissions/60s per quiz) to prevent abuse |
-| **Admin CMS** | Full quiz/question/option CRUD with drag-like ordering, toggle publish, and delete |
-| **REST API** | Published quizzes available via JSON endpoints using the same service layer |
-| **Docker support** | Multi-stage PHP-FPM + Nginx container with automated migration and seeding |
+| **Weighted scoring**     | Questions carry configurable `points` that act as active weight multipliers                         |
+| **Rate limiting**        | Session-scoped throttle (5 submissions/60s per quiz) to prevent abuse                               |
+| **Admin CMS**            | Full quiz/question/option CRUD with drag-like ordering, toggle publish, and delete                  |
+| **REST API**             | Published quizzes available via JSON endpoints using the same service layer                         |
+| **Docker support**       | Multi-stage PHP-FPM + Nginx container with automated migration and seeding                          |
 
 ---
 
@@ -77,13 +94,13 @@ Then proceed with `php artisan migrate --seed`.
 
 Running `php artisan db:seed` creates the following resources:
 
-| Quiz | Type | Category | Description |
-|---|---|---|---|
-| **Cek Kondisi Stres** | Assessment (Likert) | Psychological | 8-item Perceived Stress Scale; 5-point Likert (0–4); 3 interpretation ranges |
-| **Cek Tingkat Kecemasan** | Assessment (Likert) | Psychological | 7-item anxiety screening; 4-point Likert (0–3); 3 interpretation ranges |
-| **Tipe Kepribadian MBTI** | Assessment (Trait) | Personality | 12 forced-choice items across 4 dichotomies (E/I, S/N, T/F, J/P); outputs 4-letter code |
-| **Gaya Perilaku DISC** | Assessment (Trait) | Personality | 6 ipsative items with 4 options each; outputs dominant trait (D/I/S/C) |
-| **Profil Big Five (OCEAN)** | Assessment (Trait) | Personality | 10 items (2 per trait); 5-point Likert; outputs trait profile with reverse-scoring |
+| Quiz                        | Type                | Category      | Description                                                                             |
+| --------------------------- | ------------------- | ------------- | --------------------------------------------------------------------------------------- |
+| **Cek Kondisi Stres**       | Assessment (Likert) | Psychological | 8-item Perceived Stress Scale; 5-point Likert (0–4); 3 interpretation ranges            |
+| **Cek Tingkat Kecemasan**   | Assessment (Likert) | Psychological | 7-item anxiety screening; 4-point Likert (0–3); 3 interpretation ranges                 |
+| **Tipe Kepribadian MBTI**   | Assessment (Trait)  | Personality   | 12 forced-choice items across 4 dichotomies (E/I, S/N, T/F, J/P); outputs 4-letter code |
+| **Gaya Perilaku DISC**      | Assessment (Trait)  | Personality   | 6 ipsative items with 4 options each; outputs dominant trait (D/I/S/C)                  |
+| **Profil Big Five (OCEAN)** | Assessment (Trait)  | Personality   | 10 items (2 per trait); 5-point Likert; outputs trait profile with reverse-scoring      |
 
 Seeded assessments are published and ready for use.
 
@@ -91,10 +108,10 @@ Seeded assessments are published and ready for use.
 
 ## User Accounts
 
-| Role | Email | Password |
-|---|---|---|
-| Admin | `admin@ruangtumbuh.test` | `password` |
-| Demo user | `user@ruangtumbuh.test` | `password` |
+| Role      | Email                    | Password   |
+| --------- | ------------------------ | ---------- |
+| Admin     | `admin@ruangtumbuh.test` | `password` |
+| Demo user | `user@ruangtumbuh.test`  | `password` |
 
 - **Admin** has full CMS access (`/admin`) and can create/edit/delete quizzes, manage questions, toggle publication, and view all submissions.
 - **Demo user** can log in, view their dashboard, and access the CMS only if promoted to admin role.
@@ -192,12 +209,12 @@ Route (web/api) → Livewire Component / API Controller → Service Layer → Re
 
 Business logic is extracted into dedicated service classes:
 
-| Service | Responsibility |
-|---|---|
-| `QuizService` | Quiz creation/update orchestration, slug generation, question sync |
-| `ScoringService` | Score calculation for quiz and assessment types; trait accumulation for MBTI/DISC/Big Five |
-| `SubmissionService` | Guest identifier management, option resolution, submission creation in DB transaction |
-| `InterpretationService` | Result interpretation text based on score ranges, trait profiles, or passing score |
+| Service                 | Responsibility                                                                             |
+| ----------------------- | ------------------------------------------------------------------------------------------ |
+| `QuizService`           | Quiz creation/update orchestration, slug generation, question sync                         |
+| `ScoringService`        | Score calculation for quiz and assessment types; trait accumulation for MBTI/DISC/Big Five |
+| `SubmissionService`     | Guest identifier management, option resolution, submission creation in DB transaction      |
+| `InterpretationService` | Result interpretation text based on score ranges, trait profiles, or passing score         |
 
 ### Repository Pattern
 
@@ -359,15 +376,15 @@ quizzes
 
 ### Key Design Decisions
 
-| Decision | Rationale |
-|---|---|
-| **JSON `interpretation_ranges`** | Flexible schema for different assessment types: range arrays for Likert, metadata objects for trait-based (MBTI/DISC/Big Five) |
-| **`trait_key` on options** | Enables trait accumulation scoring without separate tables — important for MBTI, DISC, Big Five |
-| **Nullable `user_id` + `guest_identifier`** | Supports both authenticated and anonymous submissions |
-| **`public_id` (UUID) on submissions** | Prevents enumeration of results — users cannot guess other participants' result URLs |
-| **`result_summary` as JSON** | Stores flexible interpretation data: simple message string, trait scores array, dominant trait, etc. |
-| **`points` on questions** | Active weight, not dormant — `ScoringService::calculate()` multiplies option value by question points |
-| **Nullable `score`/`max_score`/`percentage`** | Supports future assessment types where scoring may not apply (e.g., pure feedback forms) |
+| Decision                                      | Rationale                                                                                                                      |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **JSON `interpretation_ranges`**              | Flexible schema for different assessment types: range arrays for Likert, metadata objects for trait-based (MBTI/DISC/Big Five) |
+| **`trait_key` on options**                    | Enables trait accumulation scoring without separate tables — important for MBTI, DISC, Big Five                                |
+| **Nullable `user_id` + `guest_identifier`**   | Supports both authenticated and anonymous submissions                                                                          |
+| **`public_id` (UUID) on submissions**         | Prevents enumeration of results — users cannot guess other participants' result URLs                                           |
+| **`result_summary` as JSON**                  | Stores flexible interpretation data: simple message string, trait scores array, dominant trait, etc.                           |
+| **`points` on questions**                     | Active weight, not dormant — `ScoringService::calculate()` multiplies option value by question points                          |
+| **Nullable `score`/`max_score`/`percentage`** | Supports future assessment types where scoring may not apply (e.g., pure feedback forms)                                       |
 
 ### Migrations
 
@@ -385,29 +402,29 @@ SQLite is the default for local development; MySQL/MariaDB for production. All m
 
 ### Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Templating | Laravel Blade |
-| Frontend framework | **Livewire 4** (Volt single-file components) |
-| Styling | **Tailwind CSS v4** via CDN + custom fallback CSS |
-| Build tool | **Vite** with Laravel plugin |
-| Fonts | Instrument Sans (local, self-hosted) |
+| Layer              | Technology                                        |
+| ------------------ | ------------------------------------------------- |
+| Templating         | Laravel Blade                                     |
+| Frontend framework | **Livewire 4** (Volt single-file components)      |
+| Styling            | **Tailwind CSS v4** via CDN + custom fallback CSS |
+| Build tool         | **Vite** with Laravel plugin                      |
+| Fonts              | Instrument Sans (local, self-hosted)              |
 
 ### Component Structure
 
 All frontend components are **Livewire single-file components** (`.blade.php` with embedded PHP class):
 
-| Component | Purpose |
-|---|---|
-| `⚡take-quiz` | Main quiz-taking wizard: start panel → question flow → submission |
-| `⚡quiz-list` | Landing page catalogue of published quizzes |
-| `⚡result-page` | Result display with interpretation, score ring, and trait breakdown |
-| `⚡login` (admin) | Admin authentication |
-| `⚡dashboard` (admin) | CMS dashboard with quiz list, toggle, delete |
-| `⚡quiz-editor` (admin) | Quiz creation/editing with dynamic question/option forms |
-| `Login` (auth) | User authentication via Laravel's built-in auth |
-| `Register` (auth) | User registration |
-| `Dashboard` (auth) | User dashboard with submission history |
+| Component               | Purpose                                                             |
+| ----------------------- | ------------------------------------------------------------------- |
+| `⚡take-quiz`           | Main quiz-taking wizard: start panel → question flow → submission   |
+| `⚡quiz-list`           | Landing page catalogue of published quizzes                         |
+| `⚡result-page`         | Result display with interpretation, score ring, and trait breakdown |
+| `⚡login` (admin)       | Admin authentication                                                |
+| `⚡dashboard` (admin)   | CMS dashboard with quiz list, toggle, delete                        |
+| `⚡quiz-editor` (admin) | Quiz creation/editing with dynamic question/option forms            |
+| `Login` (auth)          | User authentication via Laravel's built-in auth                     |
+| `Register` (auth)       | User registration                                                   |
+| `Dashboard` (auth)      | User dashboard with submission history                              |
 
 ### UI/UX Patterns
 
@@ -436,12 +453,14 @@ All frontend components are **Livewire single-file components** (`.blade.php` wi
 The scoring system handles three fundamentally different assessment models through a single `ScoringService`:
 
 **Quiz (knowledge test):**
+
 - Each question has a `points` weight
 - `is_correct` boolean on options determines correctness
 - Score = sum of points for correct answers
 - Result: "Lulus" if percentage ≥ `passing_score`, else "Belum lulus"
 
 **Likert-scale (psychological):**
+
 - All options have `is_correct = false`
 - Each option has a numeric `value` (0–4 for stress, 0–3 for anxiety)
 - Some items are reverse-scored (value inverted during seeding)
@@ -450,6 +469,7 @@ The scoring system handles three fundamentally different assessment models throu
 - Interpretation via min/max ranges in `interpretation_ranges`
 
 **Trait-based (MBTI/DISC/Big Five):**
+
 - Options carry a `trait_key` (e.g., 'E', 'I', 'D', 'S', 'C')
 - Score accumulated per trait across all questions
 - MBTI: dominant trait per dichotomy pair → 4-letter code (e.g., INFJ)
@@ -498,6 +518,7 @@ $rules['answers.'.$question->id] = [
 ```
 
 This ensures:
+
 - The submitted option exists in the database
 - The option belongs to the correct question (prevents cross-question answer injection)
 
@@ -512,6 +533,7 @@ $rateLimitKey = 'quiz-submission:'.session()->getId().':'.$this->quiz->id;
 ```
 
 This means:
+
 - Each browser session gets independent limits
 - New session = new quota (user can retake)
 - Prevents automated submission bombing without blocking legitimate retakes
@@ -671,6 +693,7 @@ docker run -p 10000:10000 \
 ```
 
 The entrypoint (`docker/entrypoint.sh`) automatically:
+
 1. Generates nginx config with `PORT` environment variable (default 10000)
 2. Creates storage symlink
 3. Runs migrations
@@ -679,111 +702,12 @@ The entrypoint (`docker/entrypoint.sh`) automatically:
 6. Starts PHP-FPM and nginx
 
 **Nginx configuration** (`docker/nginx.conf.template`):
+
 - Serves the Laravel application from `/var/www/public`
 - Handles Livewire v4 routes (`/livewire-*`)
 - 30-day cache for static assets (CSS, JS, fonts)
 - Denies access to hidden files (`.git`, `.env`, etc.)
 - 20MB client max body size
-
----
-
-## API Reference
-
-### `GET /api/quizzes`
-
-Lists all published quizzes with question count.
-
-**Response:** `200 OK`
-
-```json
-{
-    "data": [
-        {
-            "id": 1,
-            "title": "Cek Kondisi Stres",
-            "slug": "cek-kondisi-stres",
-            "description": "Refleksi singkat...",
-            "type": "assessment",
-            "category": "psychological",
-            "questions_count": 8,
-            "created_at": "2026-07-20T..."
-        }
-    ]
-}
-```
-
-### `GET /api/quizzes/{slug}`
-
-Shows a published quiz with all questions and options.
-
-**Response:** `200 OK`
-
-```json
-{
-    "data": {
-        "id": 1,
-        "title": "Cek Kondisi Stres",
-        "questions": [
-            {
-                "id": 1,
-                "question": "Saya merasa kewalahan...",
-                "options": [
-                    {"id": 1, "label": "Tidak pernah", "value": 0},
-                    {"id": 2, "label": "Hampir tidak pernah", "value": 1}
-                ]
-            }
-        ]
-    }
-}
-```
-
-**Errors:** `404 Not Found` if quiz is unpublished or has no questions.
-
-### `POST /api/quizzes/{slug}/submit`
-
-Submit answers for a published quiz.
-
-**Request body:**
-
-```json
-{
-    "name": "Optional Name",
-    "email": "optional@email.com",
-    "answers": {
-        "1": 2,
-        "2": 5
-    }
-}
-```
-
-- `answers` keys are question IDs (integer)
-- `answers` values are option IDs (integer)
-- Options must belong to their respective questions
-
-**Response:** `201 Created`
-
-```json
-{
-    "data": {
-        "id": "uuid-string",
-        "quiz_id": 1,
-        "score": 15,
-        "max_score": 32,
-        "percentage": 47,
-        "result_summary": {
-            "message": "Tingkat stres sedang",
-            "description": "Ada tanda-tanda tekanan..."
-        },
-        "completed_at": "2026-07-20T..."
-    }
-}
-```
-
-**Errors:**
-- `422 Unprocessable Entity` — validation failure (missing answers, wrong options)
-- `404 Not Found` — quiz unpublished or non-existent
-
----
 
 ## Testing
 
@@ -795,45 +719,20 @@ OK (37 tests, 95 assertions)
 
 **Feature Tests:**
 
-| Test | Assertions | Description |
-|---|---|---|
-| `TakeQuizSubmissionTest` | 5 tests | Full submission flow, cross-question validation, guest submission, rate limiting |
-| `ResultInterpretationTest` | 4 tests | Interpretation ranges, mid-range, passing score, fallback |
-| `AdminQuizCrudTest` | 5 tests | Create/edit/delete quiz, toggle publish, frontend filtering |
-| `AdminLoginTest` | 4 tests | Admin login, invalid credentials, non-admin redirection, guest redirection |
-| `ResultAccessTest` | 1 test | UUID protection — numeric ID returns 404 |
-| `QuizApiTest` | 1 test | API submission endpoint |
+| Test                       | Assertions | Description                                                                      |
+| -------------------------- | ---------- | -------------------------------------------------------------------------------- |
+| `TakeQuizSubmissionTest`   | 5 tests    | Full submission flow, cross-question validation, guest submission, rate limiting |
+| `ResultInterpretationTest` | 4 tests    | Interpretation ranges, mid-range, passing score, fallback                        |
+| `AdminQuizCrudTest`        | 5 tests    | Create/edit/delete quiz, toggle publish, frontend filtering                      |
+| `AdminLoginTest`           | 4 tests    | Admin login, invalid credentials, non-admin redirection, guest redirection       |
+| `ResultAccessTest`         | 1 test     | UUID protection — numeric ID returns 404                                         |
+| `QuizApiTest`              | 1 test     | API submission endpoint                                                          |
 
 **Unit Tests:**
 
-| Test | Description |
-|---|---|
+| Test                    | Description                                                     |
+| ----------------------- | --------------------------------------------------------------- |
 | `SubmissionServiceTest` | Service rejects cross-question options without creating DB rows |
-| `ScoringServiceTest` | Weighted quiz scoring with passing percentage |
-| `AnswerModelTest` | Answer relationships and query scopes |
-| `QuizModelTest` | Quiz relationships, slug generation, published scope |
-
-### Run Tests
-
-```bash
-# Full suite
-php artisan<read_file>
-<path>
-c:/Users/sandy/technical-test/app/Http/Middleware/EnsureAdmin.php</path>
-</read_file>
-<read_file>
-<path>
-c:/Users/sandy/technical-test/.dockerignore</path>
-</read_file>
-<read_file>
-<path>
-c:/Users/sandy/technical-test/.editorconfig</path>
-</read_file>
-<read_file>
-<path>
-c:/Users/sandy/technical-test/.gitattributes</path>
-</read_file>
-<read_file>
-<path>
-c:/Users/sandy/technical-test/phpunit.xml</path>
-</read_file>
+| `ScoringServiceTest`    | Weighted quiz scoring with passing percentage                   |
+| `AnswerModelTest`       | Answer relationships and query scopes                           |
+| `QuizModelTest`         | Quiz relationships, slug generation, published scope            |

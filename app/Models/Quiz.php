@@ -31,7 +31,6 @@ class Quiz extends Model
 
     protected $fillable = ['title', 'slug', 'description', 'type', 'category', 'assessment_type', 'duration_minutes', 'passing_score', 'is_published', 'interpretation_ranges', 'created_by'];
     protected function casts(): array { return ['is_published' => 'boolean', 'interpretation_ranges' => 'array']; }
-    public function getRouteKeyName(): string { return 'slug'; }
     public function questions(): HasMany { return $this->hasMany(Question::class)->orderBy('position'); }
     public function submissions(): HasMany { return $this->hasMany(Submission::class); }
     public function creator(): BelongsTo { return $this->belongsTo(User::class, 'created_by'); }

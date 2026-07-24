@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'quiz-index')->name('quizzes.index');
 Route::get('/quiz/{quiz:slug}', fn (Quiz $quiz) => view('quiz-take', compact('quiz')))->name('quizzes.take');
-Route::get('/result/{submission}', fn (Submission $submission) => view('result', compact('submission')))->name('results.show');
+Route::get('/result/{submission}', function (Submission $submission) {
+    abort_if($submission->expires_at && $submission->expires_at->isPast(), 410, 'Hasil sudah tidak tersedia (kedaluwarsa 24 jam).');
+    return view('result', compact('submission'));
+})->name('results.show');
 
 // Auth routes (user)
 Route::view('/login', 'auth.login')->name('login');

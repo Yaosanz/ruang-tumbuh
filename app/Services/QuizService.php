@@ -45,10 +45,12 @@ class QuizService
                     ]);
 
                     foreach (array_values($question['options']) as $optionPosition => $label) {
+                        $traitKey = $question['trait_keys'][$optionPosition] ?? null;
                         $storedQuestion->options()->create([
                             'label' => $label,
                             'value' => $optionPosition + 1,
                             'is_correct' => $attributes['type'] === 'quiz' && $optionPosition === (int) $question['correct'],
+                            'trait_key' => $traitKey ?: null,
                             'position' => $optionPosition,
                         ]);
                     }
